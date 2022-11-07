@@ -16,8 +16,8 @@ export class InputRange extends HTMLElement {
     connectedCallback() {
         const template = document.createElement('template')
         template.innerHTML = /* html */`
-            <input type="range">
-            <input type="number">
+            <input type="range" class="form-control">
+            <input type="number" class="form-control">
         `
 
         this.append(template.content.cloneNode(true))
