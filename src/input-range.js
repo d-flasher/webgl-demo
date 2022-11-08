@@ -11,9 +11,30 @@ export class InputRange extends HTMLElement {
         this._rangeEl = null
         /** @type {HTMLInputElement} */
         this._numberEl = null
+
+        this._isRendered = false
     }
 
     connectedCallback() {
+        this._render()
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        this._render()
+        if (oldValue == newValue) return
+        if (name === 'value') {
+            this._numberEl.value = newValue
+            this._rangeEl.value = newValue
+        } else {
+            this._numberEl[name] = newValue
+            this._rangeEl[name] = newValue
+        }
+    }
+
+    _render() {
+        if (this._isRendered) return
+        this._isRendered = true
+
         const template = document.createElement('template')
         template.innerHTML = /* html */`
             <input type="range" class="form-control">
@@ -25,6 +46,7 @@ export class InputRange extends HTMLElement {
         this._numberEl = this.querySelector('[type=number]')
 
         const setDefaultAttr = (name, value) => {
+            value = this.getAttribute(name) || value
             this.setAttribute(name, value)
             this._rangeEl.setAttribute(name, value)
             this._numberEl.setAttribute(name, value)
@@ -39,17 +61,6 @@ export class InputRange extends HTMLElement {
 
         this._rangeEl.addEventListener('blur', () => this._setSelfValue())
         this._numberEl.addEventListener('blur', () => this._setSelfValue())
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue == newValue) return
-        if (name === 'value') {
-            this._numberEl.value = newValue
-            this._rangeEl.value = newValue
-        } else {
-            this._numberEl[name] = newValue
-            this._rangeEl[name] = newValue
-        }
     }
 
     _sendEvent(value) {

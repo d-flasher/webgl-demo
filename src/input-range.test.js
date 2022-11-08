@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 
-import { fireEvent, within } from '@testing-library/dom'
+import { fireEvent, getByTestId, within } from '@testing-library/dom'
 
 import { InputRange } from './input-range'
 
@@ -22,6 +22,15 @@ describe('input-range', () => {
 
         return { ...within(targetEl), targetEl, sliderEl, inputEl }
     }
+
+    test('rendering with preinitialized properties', () => {
+        document.body.innerHTML = '<input-range data-testid="input-range" step="0.1" min="-1" max="1" value="0.3"></input-range>'
+        const targetEl = getByTestId(document.body, 'input-range')
+        expect(targetEl).toHaveAttribute('step', '0.1')
+        expect(targetEl).toHaveAttribute('min', '-1')
+        expect(targetEl).toHaveAttribute('max', '1')
+        expect(targetEl).toHaveAttribute('value', '0.3')
+    })
 
     test('default state', () => {
         const { targetEl, sliderEl, inputEl } = init()
