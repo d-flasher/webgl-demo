@@ -19,11 +19,28 @@ input-range>*:last-child {
   text-align: center;
 }
 
+.v-stack>*:not(:last-child) {
+  margin-bottom: 10px;
+}
+
 .grid-item {
+  width: 100%;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   padding: 10px;
+}
+
+@media(min-width: 544px) {
+  .grid-item {
+    width: 49.99999998%;
+  }
+}
+
+@media(min-width: 1012px) {
+  .grid-item {
+    width: 33.33333332%;
+  }
 }
 
 .grid-item>*:not(:last-child) {
