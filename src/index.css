@@ -1,0 +1,74 @@
+input-range {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* input type=range */
+input-range>*:first-child {
+  overflow: auto;
+  flex: 1 1 100%;
+  margin-right: 5px;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* input type=number */
+input-range>*:last-child {
+  overflow: auto;
+  text-align: center;
+}
+
+/* .float-left input {
+  overflow: auto;
+} */
+
+.float-left {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 10px;
+}
+
+.float-left>*:not(:last-child) {
+  margin-right: 10px;
+}
+
+.float-left>*:last-child {
+  flex: 1 1 100%;
+}
+
+/* .v-stack {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.v-stack>*:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.row>*:not(:last-child) {
+  margin-right: 10px;
+}
+
+.form-g {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.form-g>label {
+  margin-right: 10px;
+}
+
+.form-g>*:last-child {
+  flex-grow: 1;
+  overflow: auto;
+} */
