@@ -1,6 +1,8 @@
 export class Index {
   constructor() {
     const canvas = document.querySelector('canvas')
+    canvas.width = canvas.clientWidth
+    canvas.height = canvas.clientHeight
 
     /** @type {WebGL2RenderingContext} */
     const gl = canvas.getContext('webgl2')
@@ -8,17 +10,17 @@ export class Index {
     const programObject = Utils.createProgram(gl)
 
     const vVerices = new Float32Array([
-      0.0, 0.5, 0.0,
-      -0.5, -0.5, 0.0,
-      0.5, -0.5, 0.0,
+      0.0, 0.9, 0.0,
+      0.9, -0.9, 0.0,
+      -0.9, -0.9, 0.0,
     ])
     const buffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ARRAY_BUFFER, vVerices, gl.STATIC_DRAW)
 
-    gl.viewport(0, 0, 300, 300)
+    gl.viewport(0, 0, canvas.clientWidth, canvas.clientHeight)
     gl.clear(gl.COLOR_BUFFER_BIT)
-    
+
     gl.useProgram(programObject)
 
     gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, vVerices)
