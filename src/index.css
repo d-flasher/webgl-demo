@@ -10,6 +10,7 @@ input-range>*:first-child {
   margin-right: 5px;
   padding-right: 0;
   padding-left: 0;
+  box-shadow: none;
 }
 
 /* input type=number */
@@ -18,17 +19,18 @@ input-range>*:last-child {
   text-align: center;
 }
 
-.float-left {
+.grid-item {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   padding: 10px;
 }
 
-.float-left>*:not(:last-child) {
+.grid-item>*:not(:last-child) {
   margin-right: 10px;
 }
 
-.float-left>*:last-child {
+.grid-item>*:last-child {
   flex: 1 1 100%;
+  overflow: auto;
 }
