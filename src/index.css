@@ -18,10 +18,6 @@ input-range>*:last-child {
   text-align: center;
 }
 
-/* .float-left input {
-  overflow: auto;
-} */
-
 .float-left {
   display: flex;
   flex-wrap: nowrap;
@@ -36,39 +32,3 @@ input-range>*:last-child {
 .float-left>*:last-child {
   flex: 1 1 100%;
 }
-
-/* .v-stack {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-}
-
-.v-stack>*:not(:last-child) {
-  margin-bottom: 15px;
-}
-
-.row {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
-.row>*:not(:last-child) {
-  margin-right: 10px;
-}
-
-.form-g {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
-.form-g>label {
-  margin-right: 10px;
-}
-
-.form-g>*:last-child {
-  flex-grow: 1;
-  overflow: auto;
-} */
