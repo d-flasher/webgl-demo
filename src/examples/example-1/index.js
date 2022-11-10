@@ -2,20 +2,10 @@ import { InputRange } from '../../input-range.js'
 
 export class Index {
   constructor() {
-    const canvas = document.querySelector('canvas')
+    const canvasEl = document.querySelector('canvas')
 
     /** @type {WebGL2RenderingContext} */
-    const gl = canvas.getContext('webgl2')
-
-    const updateCanvasSize = () => {
-      canvas.width = canvas.clientWidth
-      canvas.height = canvas.clientHeight
-    }
-    updateCanvasSize()
-    new ResizeObserver(() => {
-      updateCanvasSize()
-      render()
-    }).observe(canvas)
+    const gl = canvasEl.getContext('webgl2')
 
     const data = {
       x1: 0.0, y1: 1.0, z1: 0.0,
@@ -25,10 +15,10 @@ export class Index {
     const programObject = Utils.createProgram(gl)
     const buffer = gl.createBuffer()
 
-    const render = () => {
+    const render = (isViewportChanged) => {
       gl.clear(gl.COLOR_BUFFER_BIT)
 
-      gl.viewport(0, 0, canvas.width, canvas.height)
+      if (isViewportChanged) gl.viewport(0, 0, canvasEl.width, canvasEl.height)
       gl.useProgram(programObject)
 
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
@@ -42,11 +32,24 @@ export class Index {
 
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
-    render()
 
-    this._initControls(data, () => {
-      render()
-    })
+    this._canvasResizeHandling(canvasEl, () => render(true))
+    this._initControls(data, () => render(false))
+  }
+
+  /**
+   * @param {HTMLCanvasElement} canvasEl 
+   * @param {*} onResize 
+   */
+  _canvasResizeHandling(canvasEl, onResize) {
+    canvasEl.width = canvasEl.clientWidth
+    canvasEl.height = canvasEl.clientHeight
+
+    new ResizeObserver(() => {
+      canvasEl.width = canvasEl.clientWidth
+      canvasEl.height = canvasEl.clientHeight
+      onResize()
+    }).observe(canvasEl)
   }
 
   _initControls(targetData, onChanged) {
