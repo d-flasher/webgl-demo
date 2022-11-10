@@ -1,3 +1,5 @@
+import { InputRange } from '../../input-range.js'
+
 export class Index {
   constructor() {
     const canvas = document.querySelector('canvas')
@@ -15,15 +17,13 @@ export class Index {
       render()
     }).observe(canvas)
 
+    const data = {
+      x1: 0.0, y1: 1.0, z1: 0.0,
+      x2: -1.0, y3: -1.0, z3: 0.0,
+      x3: 1.0, y2: -1.0, z2: 0.0,
+    }
     const programObject = Utils.createProgram(gl)
-    const vVerices = new Float32Array([
-      0.0, 0.9, 0.0,
-      0.9, -0.9, 0.0,
-      -0.9, -0.9, 0.0,
-    ])
     const buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-    gl.bufferData(gl.ARRAY_BUFFER, vVerices, gl.STATIC_DRAW)
 
     const render = () => {
       gl.clear(gl.COLOR_BUFFER_BIT)
@@ -31,11 +31,47 @@ export class Index {
       gl.viewport(0, 0, canvas.width, canvas.height)
       gl.useProgram(programObject)
 
-      gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, vVerices)
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        data.x1, data.y1, data.z1,
+        data.x2, data.y2, data.z2,
+        data.x3, data.y3, data.z3,
+      ]), gl.STATIC_DRAW)
       gl.enableVertexAttribArray(0)
+      gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0)
+
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
     render()
+
+    this._initControls(data, () => {
+      render()
+    })
+  }
+
+  _initControls(targetData, onChanged) {
+    const initControl = fieldName => {
+      const inputEl = document.querySelector('#' + fieldName)
+      inputEl.setAttribute('value', targetData[fieldName])
+
+      inputEl.addEventListener(InputRange.EVENT_INPUT,
+        /** @param {CustomEvent} event */
+        event => {
+          targetData[fieldName] = event.detail
+          inputEl.setAttribute('value', targetData[fieldName])
+          onChanged()
+        }
+      )
+    }
+    initControl('x1')
+    initControl('y1')
+    initControl('z1')
+    initControl('x2')
+    initControl('y2')
+    initControl('z2')
+    initControl('x3')
+    initControl('y3')
+    initControl('z3')
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
