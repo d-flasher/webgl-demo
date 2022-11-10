@@ -1,8 +1,6 @@
 export class Index {
   constructor() {
     const canvas = document.querySelector('canvas')
-    canvas.width = canvas.clientWidth
-    canvas.height = canvas.clientHeight
 
     /** @type {WebGL2RenderingContext} */
     const gl = canvas.getContext('webgl2')
@@ -18,14 +16,23 @@ export class Index {
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ARRAY_BUFFER, vVerices, gl.STATIC_DRAW)
 
-    gl.viewport(0, 0, canvas.clientWidth, canvas.clientHeight)
-    gl.clear(gl.COLOR_BUFFER_BIT)
+    const render = () => {
+      gl.clear(gl.COLOR_BUFFER_BIT)
 
-    gl.useProgram(programObject)
+      gl.viewport(0, 0, canvas.width, canvas.height)
+      gl.useProgram(programObject)
 
-    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, vVerices)
-    gl.enableVertexAttribArray(0)
-    gl.drawArrays(gl.TRIANGLES, 0, 3)
+      gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, vVerices)
+      gl.enableVertexAttribArray(0)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    }
+
+    const canvasResizeHandling = () => {
+      canvas.width = canvas.clientWidth
+      canvas.height = canvas.clientHeight
+      render()
+    }
+    new ResizeObserver(canvasResizeHandling).observe(canvas)
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
