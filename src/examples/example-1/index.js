@@ -5,20 +5,14 @@ export class Index {
     /** @type {WebGL2RenderingContext} */
     const gl = canvas.getContext('webgl2')
 
-    /** @type {{w: number, h: number}} */
-    const canvasSize = {}
     const updateCanvasSize = () => {
-      canvasSize.w = canvas.clientWidth
-      canvasSize.h = canvas.clientHeight
-      canvas.width = canvasSize.w
-      canvas.height = canvasSize.h
+      canvas.width = canvas.clientWidth
+      canvas.height = canvas.clientHeight
     }
     updateCanvasSize()
     new ResizeObserver(() => {
-      if (canvasSize.w !== canvas.clientWidth || canvasSize.h !== canvas.clientHeight) {
-        updateCanvasSize()
-        render()
-      }
+      updateCanvasSize()
+      render()
     }).observe(canvas)
 
     const programObject = Utils.createProgram(gl)
