@@ -5,8 +5,23 @@ export class Index {
     /** @type {WebGL2RenderingContext} */
     const gl = canvas.getContext('webgl2')
 
-    const programObject = Utils.createProgram(gl)
+    /** @type {{w: number, h: number}} */
+    const canvasSize = {}
+    const updateCanvasSize = () => {
+      canvasSize.w = canvas.clientWidth
+      canvasSize.h = canvas.clientHeight
+      canvas.width = canvasSize.w
+      canvas.height = canvasSize.h
+    }
+    updateCanvasSize()
+    new ResizeObserver(() => {
+      if (canvasSize.w !== canvas.clientWidth || canvasSize.h !== canvas.clientHeight) {
+        updateCanvasSize()
+        render()
+      }
+    }).observe(canvas)
 
+    const programObject = Utils.createProgram(gl)
     const vVerices = new Float32Array([
       0.0, 0.9, 0.0,
       0.9, -0.9, 0.0,
@@ -26,13 +41,7 @@ export class Index {
       gl.enableVertexAttribArray(0)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
-
-    const canvasResizeHandling = () => {
-      canvas.width = canvas.clientWidth
-      canvas.height = canvas.clientHeight
-      render()
-    }
-    new ResizeObserver(canvasResizeHandling).observe(canvas)
+    render()
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
