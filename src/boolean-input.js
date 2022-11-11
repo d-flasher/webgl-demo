@@ -2,7 +2,7 @@ export class InputRange extends HTMLElement {
   static EVENT_INPUT = 'changed'
 
   static get observedAttributes() {
-    return ['value', 'min', 'max', 'step']
+    return ['value']
   }
 
   constructor() {
@@ -37,9 +37,9 @@ export class InputRange extends HTMLElement {
 
     const template = document.createElement('template')
     template.innerHTML = /* html */`
-            <input type="range" class="form-control">
-            <input type="number" class="form-control">
-        `
+          <input type="range" class="form-control">
+          <input type="number" class="form-control">
+      `
 
     this.append(template.content.cloneNode(true))
     this._rangeEl = this.querySelector('[type=range]')
