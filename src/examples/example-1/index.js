@@ -17,6 +17,7 @@ export class Index {
 
     const render = (isViewportChanged) => {
       gl.clear(gl.COLOR_BUFFER_BIT)
+      // gl.enable(gl.CULL_FACE)
 
       if (isViewportChanged) gl.viewport(0, 0, canvasEl.width, canvasEl.height)
       gl.useProgram(programObject)
