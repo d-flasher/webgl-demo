@@ -52,3 +52,12 @@ input-range>*:last-child {
   flex: 1 1 100%;
   overflow: auto;
 }
+
+label.checkbox-label {
+  display: flex;
+  padding: 5px 12px;
+}
+
+label.checkbox-label>input {
+  margin-right: 5px;
+}

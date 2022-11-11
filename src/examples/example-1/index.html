@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <div class="clearfix">
+        <div class="clearfix border-bottom">
           <div class="grid-item">
             <label>X3</label>
             <input-range id="x3" type="text" step="0.01" min="-1.1" max="1.1">
@@ -60,6 +60,18 @@
           <div class="grid-item">
             <label>Z3</label>
             <input-range id="z3" type="text" step="0.01" min="-1.1" max="1.1">
+          </div>
+        </div>
+
+        <div class="clearfix">
+          <div class="grid-item border-right">
+            <button class="btn btn-sm">Reset</button>
+          </div>
+          <div class="grid-item border-right">
+            <label class="checkbox-label">
+              <input id="face-culling" type="checkbox" checked="checked" aria-describedby="help-text-for-checkbox" />
+              Face Culling
+            </label>
           </div>
         </div>
 

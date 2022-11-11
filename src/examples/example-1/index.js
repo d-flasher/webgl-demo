@@ -11,13 +11,16 @@ export class Index {
       x1: 0.0, y1: 1.0, z1: 0.0,
       x2: -1.0, y3: -1.0, z3: 0.0,
       x3: 1.0, y2: -1.0, z2: 0.0,
+      'face-culling': true
     }
     const programObject = Utils.createProgram(gl)
     const buffer = gl.createBuffer()
 
     const render = (isViewportChanged) => {
       gl.clear(gl.COLOR_BUFFER_BIT)
-      // gl.enable(gl.CULL_FACE)
+
+      if (data['face-culling']) gl.enable(gl.CULL_FACE)
+      else gl.disable(gl.CULL_FACE)
 
       if (isViewportChanged) gl.viewport(0, 0, canvasEl.width, canvasEl.height)
       gl.useProgram(programObject)
@@ -58,14 +61,24 @@ export class Index {
       const inputEl = document.querySelector('#' + fieldName)
       inputEl.setAttribute('value', targetData[fieldName])
 
-      inputEl.addEventListener(InputRange.EVENT_INPUT,
-        /** @param {CustomEvent} event */
-        event => {
-          targetData[fieldName] = event.detail
-          inputEl.setAttribute('value', targetData[fieldName])
+      if (inputEl instanceof InputRange) {
+        inputEl.addEventListener(InputRange.EVENT_INPUT,
+          /** @param {CustomEvent} event */
+          event => {
+            targetData[fieldName] = event.detail
+            inputEl.setAttribute('value', targetData[fieldName])
+            onChanged()
+            console.log(targetData)
+          }
+        )
+      } else if (inputEl instanceof HTMLInputElement) {
+        inputEl.addEventListener('input', () => {
+          targetData[fieldName] = inputEl.checked
+          inputEl.setAttribute('checked', targetData[fieldName])
           onChanged()
-        }
-      )
+          console.log(targetData)
+        })
+      }
     }
     initControl('x1')
     initControl('y1')
@@ -76,6 +89,7 @@ export class Index {
     initControl('x3')
     initControl('y3')
     initControl('z3')
+    initControl('face-culling')
   }
 }
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,5 @@
 export class InputRange extends HTMLElement {
-    static EVENT_INPUT = 'eventInput'
+    static EVENT_INPUT = 'changed'
 
     static get observedAttributes() {
         return ['value', 'min', 'max', 'step']
