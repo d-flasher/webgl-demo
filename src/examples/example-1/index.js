@@ -7,12 +7,13 @@ export class Index {
     /** @type {WebGL2RenderingContext} */
     const gl = canvasEl.getContext('webgl2')
 
-    const data = {
+    const initData = {
       x1: 0.0, y1: 1.0, z1: 0.0,
       x2: -1.0, y3: -1.0, z3: 0.0,
       x3: 1.0, y2: -1.0, z2: 0.0,
       'face-culling': true
     }
+    const data = { ...initData }
     const programObject = Utils.createProgram(gl)
     const buffer = gl.createBuffer()
 
@@ -39,6 +40,11 @@ export class Index {
 
     this._canvasResizeHandling(canvasEl, () => render(true))
     this._initControls(data, () => render(false))
+
+    document.querySelector('#reset-btn').addEventListener('click', () => {
+      Object.assign(data, initData)
+      render()
+    })
   }
 
   /**
@@ -67,19 +73,22 @@ export class Index {
           targetData[fieldName] = event.detail
           inputEl.setAttribute('value', targetData[fieldName])
           onChanged()
-          console.log(targetData)
         }
       )
     }
+
     initControl('x1')
     initControl('y1')
     initControl('z1')
+
     initControl('x2')
     initControl('y2')
     initControl('z2')
+
     initControl('x3')
     initControl('y3')
     initControl('z3')
+
     initControl('face-culling')
   }
 }
