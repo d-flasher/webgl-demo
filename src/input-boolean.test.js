@@ -17,7 +17,9 @@ describe('input-boolean', () => {
         /** @type {HTMLInputElement} */
         const inputEl = queryByRole('checkbox')
 
-        return { ...within(targetEl), targetEl, inputEl }
+        const labelEl = targetEl.querySelector('span')
+
+        return { ...within(targetEl), targetEl, inputEl, labelEl }
     }
 
     test('rendering with preinitialized properties', () => {
@@ -28,34 +30,44 @@ describe('input-boolean', () => {
         document.body.innerHTML = '<input-boolean data-testid="input-boolean" value="true"></input-boolean>'
         targetEl = getByTestId(document.body, 'input-boolean')
         expect(targetEl).toHaveAttribute('value', 'true')
+
+        document.body.innerHTML = '<input-boolean data-testid="input-boolean" label="Label1"></input-boolean>'
+        targetEl = getByTestId(document.body, 'input-boolean')
+        expect(targetEl).toHaveTextContent('Label1')
     })
 
     test('default state', () => {
-        const { targetEl, inputEl } = init()
+        const { targetEl, inputEl, labelEl } = init()
 
         expect(targetEl).toBeInTheDocument()
         expect(inputEl).toBeInTheDocument()
+        expect(labelEl).toBeInTheDocument()
 
         expect(targetEl).toHaveAttribute('value', 'false')
         expect(inputEl).not.toBeChecked()
+        expect(labelEl).toHaveTextContent('')
     })
 
     test('read value', () => {
         const { targetEl, inputEl } = init()
 
-        const newValue = 'true'
-        targetEl.setAttribute('value', newValue)
+        targetEl.setAttribute('value', 'true')
         expect(inputEl).toBeChecked()
+
+        targetEl.setAttribute('label', 'Label2')
+        expect(targetEl).toHaveTextContent('Label2')
     })
 
     test('"controlled input" test', () => {
         const { targetEl, inputEl } = init()
 
-        const modelValue = false
-        targetEl.setAttribute('value', modelValue)
+        targetEl.setAttribute('value', 'false')
+        expect(inputEl).not.toBeChecked()
 
-        fireEvent.select(inputEl)
+        fireEvent.click(inputEl)
         fireEvent.blur(inputEl)
+
+        expect(targetEl).toHaveAttribute('value', 'false')
         expect(inputEl).not.toBeChecked()
     })
 
@@ -66,7 +78,7 @@ describe('input-boolean', () => {
         targetEl.addEventListener(InputBoolean.EVENT_INPUT, fn)
         expect(fn).toHaveBeenCalledTimes(0)
 
-        fireEvent.select(inputEl)
+        fireEvent.click(inputEl)
         expect(fn).toHaveBeenCalledTimes(1)
         expect(fn).toHaveBeenCalledWith(new CustomEvent(InputBoolean.EVENT_INPUT, { detail: 'true' }))
     })

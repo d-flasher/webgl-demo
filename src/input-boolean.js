@@ -22,11 +22,11 @@ export class InputBoolean extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     this._render()
     if (oldValue == newValue) return
+
     if (name === 'value') {
       this._inputEl.checked = newValue === 'true'
-    }
-    if (name === 'label') {
-      this._labelEl.innerText = newValue
+    } else if (name === 'label') {
+      this._labelEl.innerHTML = newValue
     }
   }
 
@@ -46,14 +46,13 @@ export class InputBoolean extends HTMLElement {
     this._inputEl = this.querySelector('input')
     this._labelEl = this.querySelector('span')
 
-    const setDefaultAttr = (name, value) => {
-      value = this.getAttribute(name) || value
-      this.setAttribute(name, value)
-      this._inputEl.checked = value === 'true'
-    }
-    setDefaultAttr('value', false)
+    const defaultValue = this.getAttribute('value') === 'true'
+    this.setAttribute('value', String(defaultValue))
+    this._inputEl.checked = defaultValue
 
-    this._inputEl.addEventListener('select', () => this._sendEvent(this._inputEl.checked))
+    this._labelEl.innerHTML = this.getAttribute('label') || ''
+
+    this._inputEl.addEventListener('change', () => this._sendEvent(this._inputEl.checked))
 
     this._inputEl.addEventListener('blur', () => this._setSelfValue())
   }

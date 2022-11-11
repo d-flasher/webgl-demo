@@ -5,6 +5,7 @@
   <link href="./../../index.css" rel="stylesheet" />
   <script defer src="./index.js" type="module"></script>
   <script defer src="./../../input-range.js" type="module"></script>
+  <script defer src="./../../input-boolean.js" type="module"></script>
 </header>
 
 <body>
@@ -68,10 +69,7 @@
             <button class="btn btn-sm">Reset</button>
           </div>
           <div class="grid-item border-right">
-            <label class="checkbox-label">
-              <input id="face-culling" type="checkbox" checked="checked" aria-describedby="help-text-for-checkbox" />
-              Face Culling
-            </label>
+            <input-boolean id="face-culling" label="Face Culling"></input-boolean>
           </div>
         </div>
 

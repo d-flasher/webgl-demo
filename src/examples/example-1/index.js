@@ -61,24 +61,15 @@ export class Index {
       const inputEl = document.querySelector('#' + fieldName)
       inputEl.setAttribute('value', targetData[fieldName])
 
-      if (inputEl instanceof InputRange) {
-        inputEl.addEventListener(InputRange.EVENT_INPUT,
-          /** @param {CustomEvent} event */
-          event => {
-            targetData[fieldName] = event.detail
-            inputEl.setAttribute('value', targetData[fieldName])
-            onChanged()
-            console.log(targetData)
-          }
-        )
-      } else if (inputEl instanceof HTMLInputElement) {
-        inputEl.addEventListener('input', () => {
-          targetData[fieldName] = inputEl.checked
-          inputEl.setAttribute('checked', targetData[fieldName])
+      inputEl.addEventListener(InputRange.EVENT_INPUT,
+        /** @param {CustomEvent} event */
+        event => {
+          targetData[fieldName] = event.detail
+          inputEl.setAttribute('value', targetData[fieldName])
           onChanged()
           console.log(targetData)
-        })
-      }
+        }
+      )
     }
     initControl('x1')
     initControl('y1')
