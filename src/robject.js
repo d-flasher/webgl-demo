@@ -1,12 +1,17 @@
-export class RObject {
-  static EVENT_CHANGED = 'changed'
+import EventEmitter from './event-emitter.js'
 
+export class RObject {
   create(target) {
-    return new Proxy(target, {
-      set(target, prop, val) {
-        console.log('pr', prop, val)
-        return Reflect.set(...arguments)
-      }
-    })
+    const eventEmitter = new EventEmitter()
+
+    return {
+      eventEmitter,
+      target: new Proxy(target, {
+        set(target, prop, val) {
+          eventEmitter.emit(prop, val)
+          return Reflect.set(...arguments)
+        }
+      })
+    }
   }
 }
