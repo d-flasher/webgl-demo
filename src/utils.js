@@ -1,7 +1,7 @@
 import EventEmitter from './event-emitter.js'
 
-export class RObject {
-  create(target) {
+class Utils {
+  static create(target) {
     const eventEmitter = new EventEmitter()
 
     return {
@@ -15,3 +15,4 @@ export class RObject {
     }
   }
 }
+export default Utils

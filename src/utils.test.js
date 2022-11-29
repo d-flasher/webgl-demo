@@ -1,7 +1,7 @@
-import { RObject } from './robject.js'
+import Utils from './utils.js'
 
-describe('RObject', () => {
-  test('read', () => {
+describe('Utils', () => {
+  test('proxy factory', () => {
 
     let target = {
       v1: 1,
@@ -9,7 +9,7 @@ describe('RObject', () => {
     }
     const fn = jest.fn()
 
-    const { target: target2, eventEmitter } = new RObject().create(target)
+    const { target: target2, eventEmitter } = Utils.create(target)
     eventEmitter.on(fn)
     expect(fn).toBeCalledTimes(0)
 
