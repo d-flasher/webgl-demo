@@ -1,19 +1,43 @@
 import { InputRange } from '../../input-range.js'
+import Utils from '../../utils.js'
+
+/**
+ * @typedef {Object} Options
+ * @property {number} x1
+ * @property {number} y1
+ * @property {number} z1
+ * @property {number} x2
+ * @property {number} y2
+ * @property {number} z2
+ * @property {number} x3
+ * @property {number} y3
+ * @property {number} z3
+ * @property {boolean} face-culling
+ */
 
 export class Index {
+
   constructor() {
     const canvasEl = document.querySelector('canvas')
 
     /** @type {WebGL2RenderingContext} */
     const gl = canvasEl.getContext('webgl2')
 
-    const initData = {
+    /** @type {Options} */
+    let initData = {
       x1: 0.0, y1: 1.0, z1: 0.0,
       x2: -1.0, y3: -1.0, z3: 0.0,
       x3: 1.0, y2: -1.0, z2: 0.0,
       'face-culling': true
     }
-    const data = { ...initData }
+
+    /** @type {Options} */
+    let data = Utils.create(Object.assign({}, initData), (p, v) => {
+      const inputEl = document.querySelector('#' + p)
+      inputEl.setAttribute('value', data[p])
+      render(false)
+    })
+
     const programObject = WebGLUtils.createProgram(gl)
     const buffer = gl.createBuffer()
 
@@ -39,11 +63,10 @@ export class Index {
     }
 
     this._canvasResizeHandling(canvasEl, () => render(true))
-    this._initControls(data, () => render(false))
+    this._initControls(data)
 
     document.querySelector('#reset-btn').addEventListener('click', () => {
       Object.assign(data, initData)
-      render()
     })
   }
 
@@ -62,7 +85,7 @@ export class Index {
     }).observe(canvasEl)
   }
 
-  _initControls(targetData, onChanged) {
+  _initControls(targetData) {
     const initControl = fieldName => {
       const inputEl = document.querySelector('#' + fieldName)
       inputEl.setAttribute('value', targetData[fieldName])
@@ -71,8 +94,6 @@ export class Index {
         /** @param {CustomEvent} event */
         event => {
           targetData[fieldName] = event.detail
-          inputEl.setAttribute('value', targetData[fieldName])
-          onChanged()
         }
       )
     }
