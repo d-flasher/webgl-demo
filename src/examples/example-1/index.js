@@ -14,7 +14,7 @@ export class Index {
       'face-culling': true
     }
     const data = { ...initData }
-    const programObject = Utils.createProgram(gl)
+    const programObject = WebGLUtils.createProgram(gl)
     const buffer = gl.createBuffer()
 
     const render = (isViewportChanged) => {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new Index()
 })
 
-class Utils {
+class WebGLUtils {
   /**
    * @param {WebGL2RenderingContext} gl 
    * @param {*} type 
@@ -141,8 +141,8 @@ class Utils {
       }
     `
 
-    const vertexShader = Utils.loadShader(gl, gl.VERTEX_SHADER, vStaderStr)
-    const fragmentShader = Utils.loadShader(gl, gl.FRAGMENT_SHADER, fShaderStr)
+    const vertexShader = WebGLUtils.loadShader(gl, gl.VERTEX_SHADER, vStaderStr)
+    const fragmentShader = WebGLUtils.loadShader(gl, gl.FRAGMENT_SHADER, fShaderStr)
 
     const programObject = gl.createProgram()
     if (programObject == null) return
