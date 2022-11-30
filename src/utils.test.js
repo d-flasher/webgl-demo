@@ -4,17 +4,30 @@ describe('Utils', () => {
   test('proxy factory', () => {
 
     let target = {
-      v1: 1,
-      v2: 'qwerty',
+      v1: 1
     }
     const fn = jest.fn()
 
-    const { target: target2, eventEmitter } = Utils.create(target)
-    eventEmitter.on(fn)
+    target = Utils.create(target, fn)
     expect(fn).toBeCalledTimes(0)
 
-    target2.v1 = 2
+    target.v1 = 2
     expect(fn).toBeCalledTimes(1)
     expect(fn).toBeCalledWith('v1', 2)
+
+    target.v1 = 3
+    expect(fn).toBeCalledTimes(2)
+    expect(fn).toBeCalledWith('v1', 3)
+
+    target.v1 = 3
+    expect(fn).not.toBeCalledTimes(3)
+
+    target.v1 = {}
+    expect(fn).toBeCalledTimes(3)
+    expect(fn).toBeCalledWith('v1', {})
+
+    target['v2'] = true
+    expect(fn).toBeCalledTimes(4)
+    expect(fn).toBeCalledWith('v2', true)
   })
 })
