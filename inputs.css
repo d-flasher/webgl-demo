@@ -1,0 +1,30 @@
+input-range {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* input type=range */
+input-range>*:first-child {
+  overflow: auto;
+  flex: 1 1 100%;
+  margin-right: 5px;
+  padding-right: 0;
+  padding-left: 0;
+  box-shadow: none;
+}
+
+/* input type=number */
+input-range>*:last-child {
+  overflow: auto;
+  text-align: center;
+}
+
+input-boolean label {
+  display: flex;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+input-boolean input {
+  margin-right: 5px;
+}
