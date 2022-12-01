@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 
-import { fireEvent, within } from '@testing-library/dom'
+import { fireEvent, getByTestId, within } from '@testing-library/dom'
 
 import { InputRange } from './input-range'
 
@@ -23,6 +23,15 @@ describe('input-range', () => {
         return { ...within(targetEl), targetEl, sliderEl, inputEl }
     }
 
+    test('rendering with preinitialized properties', () => {
+        document.body.innerHTML = '<input-range data-testid="input-range" step="0.1" min="-1" max="1" value="0.3"></input-range>'
+        const targetEl = getByTestId(document.body, 'input-range')
+        expect(targetEl).toHaveAttribute('step', '0.1')
+        expect(targetEl).toHaveAttribute('min', '-1')
+        expect(targetEl).toHaveAttribute('max', '1')
+        expect(targetEl).toHaveAttribute('value', '0.3')
+    })
+
     test('default state', () => {
         const { targetEl, sliderEl, inputEl } = init()
 
@@ -31,9 +40,9 @@ describe('input-range', () => {
         expect(inputEl).toBeInTheDocument()
 
         const defaultValue = '0'
-        expect(targetEl.getAttribute('value')).toEqual(defaultValue)
-        expect(sliderEl.getAttribute('value')).toEqual(defaultValue)
-        expect(inputEl.getAttribute('value')).toEqual(defaultValue)
+        expect(targetEl).toHaveAttribute('value', defaultValue)
+        expect(sliderEl).toHaveAttribute('value', defaultValue)
+        expect(inputEl).toHaveAttribute('value', defaultValue)
     })
 
     test('read value', () => {
@@ -86,9 +95,9 @@ describe('input-range', () => {
         const DEFAULT_MIN = '0'
         const DEFAULT_MAX = '100'
         const DEFAULT_STEP = '1'
-        expect(targetEl.getAttribute('min')).toEqual(DEFAULT_MIN)
-        expect(targetEl.getAttribute('max')).toEqual(DEFAULT_MAX)
-        expect(targetEl.getAttribute('step')).toEqual(DEFAULT_STEP)
+        expect(targetEl).toHaveAttribute('min', DEFAULT_MIN)
+        expect(targetEl).toHaveAttribute('max', DEFAULT_MAX)
+        expect(targetEl).toHaveAttribute('step', DEFAULT_STEP)
 
         expect(sliderEl.min).toEqual(DEFAULT_MIN)
         expect(sliderEl.max).toEqual(DEFAULT_MAX)
